@@ -5,7 +5,6 @@ import { ELSPlugin } from "../src/plugin.js";
 import { useELS } from "../src/useELS.js";
 
 const config = {
-  endpoint: "https://example.test",
   apiKey: "test-key",
   appSlug: "test-app",
 } as const;
@@ -80,7 +79,7 @@ describe("ELSPlugin", () => {
     expect(() =>
       mount(Child, {
         global: {
-          // @ts-expect-error — намеренно без config
+          // intentionally installed without `config`
           plugins: [[ELSPlugin, {}]],
         },
       }),

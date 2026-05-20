@@ -6,9 +6,7 @@ export function buildErrorHandler(client: ELSClient, queue: ELSQueue | null) {
     const entry: ErrorEntry = {
       message: e?.message ?? String(err),
       stack: e?.stack,
-      url: typeof location !== "undefined" ? location.href : "",
       level: "error",
-      source: "client",
       errorCategory: info,
     };
     if (queue) queue.enqueue(entry);

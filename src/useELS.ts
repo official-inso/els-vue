@@ -3,13 +3,22 @@ import type { ErrorEntry } from "@inso_web/els-client";
 import { ELSKey } from "./symbols.js";
 import type { ELSInjection } from "./symbols.js";
 
+/**
+ * Composable that returns the injected ELS `client`/`queue` plus a
+ * `report(error, extra?)` helper. Requires {@link ELSPlugin} to be installed.
+ *
+ * @example
+ * const { client, report } = useELS();
+ * client.info("checkout opened");
+ * try { await pay(); } catch (e) { report(e, { url: "/pay" }); }
+ */
 export function useELS(): ELSInjection & {
   report: (err: unknown, extra?: Partial<ErrorEntry>) => void;
 } {
   const ctx = inject(ELSKey);
   if (!ctx) {
     throw new Error(
-      "useELS: ELSPlugin не установлен. Вызовите app.use(ELSPlugin, { config }).",
+      "useELS: ELSPlugin is not installed. Call app.use(ELSPlugin, { config }).",
     );
   }
   const report = (err: unknown, extra?: Partial<ErrorEntry>) => {
@@ -17,10 +26,7 @@ export function useELS(): ELSInjection & {
     const entry: ErrorEntry = {
       message: e?.message ?? String(err),
       stack: e?.stack,
-      url:
-        typeof location !== "undefined" ? location.href : extra?.url ?? "",
       level: "error",
-      source: "client",
       ...extra,
     };
     if (ctx.queue) ctx.queue.enqueue(entry);

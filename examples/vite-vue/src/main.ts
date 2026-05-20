@@ -7,7 +7,6 @@ const app = createApp(App);
 
 app.use(ELSPlugin, {
   config: {
-    endpoint: import.meta.env.VITE_ELS_URL || 'https://api.insoweb.ru/els',
     apiKey: import.meta.env.VITE_ELS_API_KEY || 'els_live_xxxxxxxx',
     appSlug: 'examples',
     deploymentEnv: 'DEV',
