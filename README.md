@@ -68,7 +68,6 @@ import { ELSPlugin } from '@inso_web/els-vue';
 import App from './App.vue';
 
 const client = new ELSClient({
-  endpoint: import.meta.env.VITE_ELS_URL,
   apiKey: import.meta.env.VITE_ELS_API_KEY,
   appSlug: 'my-vue-app',
   serviceName: 'web',
@@ -125,7 +124,6 @@ import { ELSPlugin } from '@inso_web/els-vue';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const client = new ELSClient({
-    endpoint: useRuntimeConfig().public.elsUrl,
     apiKey: useRuntimeConfig().public.elsApiKey,
     appSlug: 'my-nuxt-app',
   });
@@ -182,7 +180,6 @@ tenantLog.info('viewed dashboard');
 
 | Option | Description |
 |---|---|
-| `endpoint` | ELS URL (required) |
 | `apiKey` | API key (required) |
 | `appSlug` | App slug (required) |
 | `serviceName` | Service / module name |
@@ -245,7 +242,6 @@ import App from './App.vue';
 import router from './router';
 
 const client = new ELSClient({
-  endpoint: import.meta.env.VITE_ELS_URL,
   apiKey: import.meta.env.VITE_ELS_API_KEY,
   appSlug: 'my-vue-app',
   deploymentEnv: import.meta.env.PROD ? 'PRODUCTION' : 'DEV',
