@@ -1,5 +1,5 @@
 import { inject } from "vue";
-import type { ErrorEntry } from "@inso_web/els-client";
+import type { ErrorEntry, WritableErrorEntry } from "@inso_web/els-client";
 import { ELSKey } from "./symbols.js";
 import type { ELSInjection } from "./symbols.js";
 
@@ -13,7 +13,7 @@ import type { ELSInjection } from "./symbols.js";
  * try { await pay(); } catch (e) { report(e, { url: "/pay" }); }
  */
 export function useELS(): ELSInjection & {
-  report: (err: unknown, extra?: Partial<ErrorEntry>) => void;
+  report: (err: unknown, extra?: Partial<WritableErrorEntry>) => void;
 } {
   const ctx = inject(ELSKey);
   if (!ctx) {
@@ -21,16 +21,17 @@ export function useELS(): ELSInjection & {
       "useELS: ELSPlugin is not installed. Call app.use(ELSPlugin, { config }).",
     );
   }
-  const report = (err: unknown, extra?: Partial<ErrorEntry>) => {
+  const report = (err: unknown, extra?: Partial<WritableErrorEntry>) => {
     const e = err as Error | undefined;
-    const entry: ErrorEntry = {
+    const entry: WritableErrorEntry = {
       message: e?.message ?? String(err),
       stack: e?.stack,
       level: "error",
       ...extra,
     };
-    if (ctx.queue) ctx.queue.enqueue(entry);
-    else void ctx.client.sendError(entry);
+    // Browser-side: source/url are resolved by the client (location.href).
+    if (ctx.queue) ctx.queue.enqueue(entry as ErrorEntry);
+    else void ctx.client.sendError(entry as ErrorEntry);
   };
   return { ...ctx, report };
 }

@@ -1,8 +1,8 @@
 {
   "name": "@inso_web/els-vue",
   "version": "0.5.1",
-  "description": "Vue 3 plugin для Error Logs Service (ELS): глобальный errorHandler, composable useELS и автоматический репорт ошибок компонентов.",
-  "homepage": "https://api.insoweb.ru/els",
+  "description": "Vue 3 plugin for the Error Logs Service (ELS): a global errorHandler, the useELS composable and automatic component error reporting.",
+  "homepage": "https://els.insoweb.ru",
   "author": "INSOWEB",
   "type": "module",
   "main": "./dist/index.cjs",
